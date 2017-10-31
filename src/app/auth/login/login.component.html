@@ -1,0 +1,50 @@
+<p class="text-xs-center">Войдите для работы</p>
+<div *ngIf="message.text" class="alert-{{message.type}}">{{message.text}}</div>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group" [ngClass]="{'has-error': (loginForm.get('email').invalid && loginForm.get('email').touched) || submitted }">
+        <label for="email">Email</label>
+        <input
+            type="text"
+            class="form-control underlined"
+            id="email"
+            placeholder="Введите ваш email"
+            formControlName="email"
+        >
+        <div *ngIf="(loginForm.get('email').invalid && loginForm.get('email').touched) || submitted">
+            <div *ngIf="loginForm.get('email').errors && loginForm.get('email').errors.required">
+                <span class="form-help-text">Required field</span>
+            </div>
+            <div *ngIf="loginForm.get('email').errors && loginForm.get('email').errors.email">
+                <span class="form-help-text">notValid field</span>
+            </div>            
+        </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': (loginForm.controls['password'].errors  && loginForm.controls['password'].touched) || submitted}">
+        <label for="password">Пароль</label>
+        <input
+            type="password"
+            class="form-control underlined"
+            id="password"
+            placeholder="Пароль"
+            formControlName="password"
+        >
+        <div *ngIf="(loginForm.controls['password'].errors && loginForm.controls['password'].touched) || submitted">
+            <div *ngIf="loginForm.controls['password'].errors && loginForm.controls['password'].errors.required">
+                <span class="form-help-text">Required field</span>
+            </div>
+            <div *ngIf="loginForm.controls['password'].errors && loginForm.controls['password'].errors.minlength">
+                <span class="form-help-text">
+                    MinLength {{loginForm.get('password').errors.minlength.requiredLength}} simbol it is now {{loginForm.get('password').errors.minlength.actualLength}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-block btn-primary">Войти</button>
+    </div>
+    <div class="form-group">
+        <p class="text-muted text-xs-center">
+            Нет аккаунта? <a [routerLink]="'/registration'">Зарегистрироваться!</a>
+        </p>
+    </div>
+</form>
